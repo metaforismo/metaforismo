@@ -3,7 +3,6 @@
 BSc student - Computer Science & Artificial Intelligence - Università della Calabria
 
 [![GitHub stars](https://img.shields.io/github/stars/metaforismo?style=social)](https://github.com/metaforismo)
-[![Profile views](https://img.shields.io/github/profile-views/metaforismo?style=social)](https://github.com/metaforismo)
 
 Passionate self-learner with a knack for dissecting the world around me. I am deeply interested in a variety of fields including film🍿, space🔭, sports⚽️ (especially football), history📖, and of course, AI. Constantly pushing boundaries by building projects from scratch and embracing new challenges.
 
