@@ -1,0 +1,45 @@
+name: rank30-magma-saturation
+
+on:
+  push:
+    branches:
+      - research/rank30-cas-20260806
+    paths:
+      - "rank30/magma_saturation_free.py"
+      - ".github/workflows/rank30-magma-saturation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  saturation:
+    name: Magma V2.29 saturation through 4095
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Submit compact fail-closed saturation program
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 rank30/magma_saturation_free.py 2>&1 | tee rank30/results/magma_saturation_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/points.json rank30/magma_saturation_free.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.magma-saturation || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-magma-saturation
+          path: rank30/results
+          if-no-files-found: error
