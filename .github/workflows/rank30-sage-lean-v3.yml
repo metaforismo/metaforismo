@@ -1,0 +1,137 @@
+name: rank30-sage-lean-v3
+
+on:
+  push:
+    branches:
+      - research/rank30-cas-20260806
+    paths:
+      - "rank30/verify_sage_lean_v3.py"
+      - ".github/workflows/rank30-sage-lean-v3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quick:
+    name: SageMath 10.9 exact points and local independence
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: sagemath/sagemath:10.9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "6f3dc067fe764f213950f82068c4eaae54da26f93cdeae43c7edba3288ea1463  rank30/payload.part.01" | sha256sum -c -
+          echo "8ca971e5743dc78a6b43065a3309d2ff6aa1a47cfb8b70dea39cc969ff3703f5  rank30/payload.part.02" | sha256sum -c -
+          echo "302eba0855246595546e703e02b411a97257f04670239fd8a2da4efd7ad6ca2d  rank30/payload.part.03" | sha256sum -c -
+          echo "c5834288669ac39496fdd76d7b214f94e45ac4693c32d3d3f9deedf363e71926  rank30/payload.part.04" | sha256sum -c -
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Execute lean exact Sage verifier
+        shell: bash
+        run: |
+          set -o pipefail
+          sage -python rank30/verify_sage_lean_v3.py --mode quick 2>&1 | tee rank30/results/sage_lean_v3_quick_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/points.json rank30/verify_sage_lean_v3.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.sage-lean-v3-quick || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-sage-lean-v3-quick
+          path: rank30/results
+          if-no-files-found: error
+
+  heights:
+    name: SageMath canonical height matrix at ${{ matrix.precision }} bits
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    container:
+      image: sagemath/sagemath:10.9
+    strategy:
+      fail-fast: false
+      matrix:
+        precision: [128, 256]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Compute independent Sage height matrix
+        shell: bash
+        run: |
+          set -o pipefail
+          sage -python rank30/verify_sage_lean_v3.py --mode height --precision ${{ matrix.precision }} 2>&1 | tee rank30/results/sage_lean_v3_height_${{ matrix.precision }}_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/points.json rank30/verify_sage_lean_v3.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.sage-lean-v3-height-${{ matrix.precision }} || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-sage-lean-v3-height-${{ matrix.precision }}
+          path: rank30/results
+          if-no-files-found: error
+
+  saturation:
+    name: SageMath saturation primes ${{ matrix.min_prime }}-${{ matrix.max_prime }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    container:
+      image: sagemath/sagemath:10.9
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - min_prime: 2
+            max_prime: 31
+          - min_prime: 37
+            max_prime: 127
+          - min_prime: 131
+            max_prime: 509
+          - min_prime: 521
+            max_prime: 1021
+          - min_prime: 1031
+            max_prime: 2039
+          - min_prime: 2053
+            max_prime: 4095
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Prove saturation in prime interval
+        shell: bash
+        run: |
+          set -o pipefail
+          sage -python rank30/verify_sage_lean_v3.py --mode saturation --min-prime ${{ matrix.min_prime }} --max-prime ${{ matrix.max_prime }} 2>&1 | tee rank30/results/sage_lean_v3_saturation_${{ matrix.min_prime }}_${{ matrix.max_prime }}_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/points.json rank30/verify_sage_lean_v3.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.sage-lean-v3-saturation-${{ matrix.min_prime }}-${{ matrix.max_prime }} || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-sage-lean-v3-saturation-${{ matrix.min_prime }}-${{ matrix.max_prime }}
+          path: rank30/results
+          if-no-files-found: error
