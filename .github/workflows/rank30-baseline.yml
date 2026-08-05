@@ -27,9 +27,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract deterministic research payload
         run: |
-          base64 -d rank30/payload.tar.gz.b64 > /tmp/rank30-payload.tar.gz
-          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  rank30/payload.tar.gz" | sha256sum -c -
+          tar -xzf rank30/payload.tar.gz
       - name: Run exact verifier
         run: |
           mkdir -p rank30/results
@@ -55,9 +54,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract deterministic research payload
         run: |
-          base64 -d rank30/payload.tar.gz.b64 > /tmp/rank30-payload.tar.gz
-          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  rank30/payload.tar.gz" | sha256sum -c -
+          tar -xzf rank30/payload.tar.gz
       - name: Run Sage core verifier
         run: |
           mkdir -p rank30/results
@@ -75,7 +73,6 @@ jobs:
   sage-saturation-4095:
     name: SageMath saturation at all primes below 4096
     needs: sage-core
-    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 360
     container:
@@ -84,9 +81,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract deterministic research payload
         run: |
-          base64 -d rank30/payload.tar.gz.b64 > /tmp/rank30-payload.tar.gz
-          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  rank30/payload.tar.gz" | sha256sum -c -
+          tar -xzf rank30/payload.tar.gz
       - name: Saturate through prime 4095
         run: |
           mkdir -p rank30/results
@@ -109,9 +105,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract deterministic research payload
         run: |
-          base64 -d rank30/payload.tar.gz.b64 > /tmp/rank30-payload.tar.gz
-          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  rank30/payload.tar.gz" | sha256sum -c -
+          tar -xzf rank30/payload.tar.gz
       - name: Submit auditable Magma tasks
         run: |
           mkdir -p rank30/results
