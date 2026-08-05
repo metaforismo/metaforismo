@@ -7,6 +7,12 @@ on:
     paths:
       - "rank30/**"
       - ".github/workflows/rank30-baseline.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "rank30/**"
+      - ".github/workflows/rank30-baseline.yml"
   workflow_dispatch:
 
 permissions:
