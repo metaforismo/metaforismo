@@ -1,0 +1,65 @@
+name: rank30-sage-direct-p-saturation
+
+on:
+  push:
+    branches:
+      - research/rank30-cas-20260806
+    paths:
+      - "rank30/sage_direct_p_saturation_v4.py"
+      - ".github/workflows/rank30-sage-direct-p-saturation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  p-saturation:
+    name: Sage direct p-saturation ${{ matrix.min_prime }}-${{ matrix.max_prime }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    container:
+      image: sagemath/sagemath:10.9
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - min_prime: 2
+            max_prime: 2
+          - min_prime: 3
+            max_prime: 31
+          - min_prime: 37
+            max_prime: 127
+          - min_prime: 131
+            max_prime: 509
+          - min_prime: 521
+            max_prime: 1021
+          - min_prime: 1031
+            max_prime: 2039
+          - min_prime: 2053
+            max_prime: 4095
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Prove p-saturation directly at every prime in interval
+        shell: bash
+        run: |
+          set -o pipefail
+          sage -python rank30/sage_direct_p_saturation_v4.py --min-prime ${{ matrix.min_prime }} --max-prime ${{ matrix.max_prime }} 2>&1 | tee rank30/results/sage_direct_p_saturation_${{ matrix.min_prime }}_${{ matrix.max_prime }}_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/points.json rank30/sage_direct_p_saturation_v4.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.sage-direct-p-saturation-${{ matrix.min_prime }}-${{ matrix.max_prime }} || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-sage-direct-p-saturation-${{ matrix.min_prime }}-${{ matrix.max_prime }}
+          path: rank30/results
+          if-no-files-found: error
