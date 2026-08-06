@@ -1,0 +1,47 @@
+name: rank30-sage-local-data
+
+on:
+  push:
+    branches:
+      - research/rank30-cas-20260806
+    paths:
+      - "rank30/sage_local_data_v1.py"
+      - ".github/workflows/rank30-sage-local-data.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-data:
+    name: SageMath exact local data, conductor, root number, minimality
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    container:
+      image: sagemath/sagemath:10.9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble deterministic input payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat rank30/payload.part.0{1,2,3,4} > /tmp/rank30-payload.b64
+          echo "62a7d1f83c2e3ca4ae2e85707019a270740b28cbea620a9917f1cb843e0423b1  /tmp/rank30-payload.b64" | sha256sum -c -
+          base64 -d /tmp/rank30-payload.b64 > /tmp/rank30-payload.tar.gz
+          echo "e373381129472924604689df1443d68dc2cb51c05390dc52193761e60523a28d  /tmp/rank30-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/rank30-payload.tar.gz
+          mkdir -p rank30/results
+      - name: Run Tate algorithms at all known bad primes
+        shell: bash
+        run: |
+          set -o pipefail
+          sage -python rank30/sage_local_data_v1.py 2>&1 | tee rank30/results/sage_local_data_v1_driver.log
+      - name: Hash evidence
+        if: always()
+        run: sha256sum rank30/curve.json rank30/sage_local_data_v1.py rank30/results/* 2>/dev/null | tee rank30/results/SHA256SUMS.sage-local-data || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rank30-sage-local-data
+          path: rank30/results
+          if-no-files-found: error
