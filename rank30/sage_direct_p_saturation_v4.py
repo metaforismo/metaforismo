@@ -2,10 +2,10 @@
 """Directly prove p-saturation of the 29-point subgroup for a prime interval.
 
 For every prime p in the requested interval this calls SageMath's independent
-``EllipticCurveSaturator.p_saturation(..., sieve=True)``.  Sage 10.9's number-
+``EllipticCurveSaturator.p_saturation(..., sieve=True)``. Sage 10.9's number-
 field saturator expects coordinates with ``denominator_ideal``; therefore the
 curve over Q is transported to the degree-one number field Q[a]/(a-1), which is
-canonically isomorphic to Q.  This changes no Mordell--Weil relation.
+canonically isomorphic to Q. This changes no Mordell--Weil relation.
 
 The documented return value ``False`` is an exact certificate that the subgroup
 is p-saturated. Any replacement point, exception, timeout, or missing result
@@ -21,7 +21,7 @@ import time
 import traceback
 from pathlib import Path
 
-from sage.all import EllipticCurve, NumberField, PolynomialRing, QQ, prime_range, proof
+from sage.all import EllipticCurve, NumberField, PolynomialRing, QQ, ZZ, prime_range, proof
 from sage.schemes.elliptic_curves.saturation import EllipticCurveSaturator
 
 ROOT = Path(__file__).resolve().parent
@@ -47,7 +47,7 @@ def load_curve_points():
     points_doc = json.loads((ROOT / "points.json").read_text(encoding="utf-8"))
 
     # Sage 10.9's generic number-field saturator calls denominator_ideal(); QQ
-    # elements do not expose that method.  A degree-one number field provides
+    # elements do not expose that method. A degree-one number field provides
     # the same field with the required number-field interface.
     R = PolynomialRing(QQ, "x")
     x = R.gen()
@@ -66,7 +66,7 @@ def load_curve_points():
 def main(min_prime: int, max_prime: int) -> int:
     assert 2 <= min_prime <= max_prime
     E, points, K = load_curve_points()
-    primes = [int(p) for p in prime_range(min_prime, max_prime + 1)]
+    primes = [ZZ(p) for p in prime_range(min_prime, max_prime + 1)]
     assert primes
     event(
         "interval_start",
@@ -85,7 +85,7 @@ def main(min_prime: int, max_prime: int) -> int:
         result = saturator.p_saturation(points, p, sieve=True)
         elapsed = time.monotonic() - started
         saturated = result is False
-        record = {"p": p, "saturated": saturated, "seconds": round(elapsed, 6)}
+        record = {"p": int(p), "saturated": saturated, "seconds": round(elapsed, 6)}
         records.append(record)
         event("prime_done", **record)
         if not saturated:
@@ -102,7 +102,7 @@ def main(min_prime: int, max_prime: int) -> int:
         "min_prime": min_prime,
         "max_prime": max_prime,
         "prime_count": len(primes),
-        "primes": primes,
+        "primes": [int(p) for p in primes],
         "records": records,
         "all_p_saturated": True,
         "input_point_count": 29,
