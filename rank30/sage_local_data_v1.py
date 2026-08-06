@@ -14,7 +14,7 @@ import time
 import traceback
 from pathlib import Path
 
-from sage.all import EllipticCurve, QQ, ZZ, is_prime, proof
+from sage.all import EllipticCurve, QQ, ZZ, proof
 
 ROOT = Path(__file__).resolve().parent
 RESULTS = ROOT / "results"
@@ -51,7 +51,8 @@ def main() -> int:
     reconstructed = -ZZ(1)
     for p, e in FACTORS:
         event("primality_start", p=str(p), digits=len(str(p)))
-        assert is_prime(ZZ(p), proof=True)
+        # proof.all(True) is set below, so Integer.is_prime() is a proved test.
+        assert ZZ(p).is_prime()
         reconstructed *= ZZ(p) ** e
         event("primality_pass", p=str(p))
     assert reconstructed == delta
