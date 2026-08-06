@@ -38,7 +38,8 @@ def version():
 
 
 def event(label, **data):
-    print("R30_SAGE_LOCAL_EVENT " + json.dumps({"event": label, "elapsed_seconds": round(time.monotonic() - START, 3), **data}, sort_keys=True), flush=True)
+    payload = {"event": label, "elapsed_seconds": round(time.monotonic() - START, 3), **data}
+    print("R30_SAGE_LOCAL_EVENT " + json.dumps(payload, sort_keys=True, default=str), flush=True)
 
 
 def main() -> int:
@@ -75,22 +76,22 @@ def main() -> int:
         row = {
             "p": str(p),
             "digits": len(str(p)),
-            "model_discriminant_valuation": model_disc_val,
+            "model_discriminant_valuation": int(model_disc_val),
             "minimal_discriminant_valuation": minimal_disc_val,
-            "model_is_minimal_at_p": minimal_here,
+            "model_is_minimal_at_p": bool(minimal_here),
             "conductor_valuation": conductor_val,
             "kodaira_symbol": str(data.kodaira_symbol()),
             "tamagawa_number": int(data.tamagawa_number()),
-            "bad_reduction_type": data.bad_reduction_type(),
+            "bad_reduction_type": int(data.bad_reduction_type()),
             "local_root_number": local_root,
         }
         local_rows.append(row)
         event("local_data_pass", **row)
 
-    global_root = -finite_root
+    global_root = int(-finite_root)
     assert global_root in (-1, 1)
     assert globally_minimal
-    event("global_invariants", conductor=str(conductor), root_number=int(global_root), globally_minimal=True)
+    event("global_invariants", conductor=str(conductor), root_number=global_root, globally_minimal=True)
 
     result = {
         "status": "pass",
@@ -101,7 +102,7 @@ def main() -> int:
             "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         },
         "discriminant": str(delta),
-        "factorisation": [{"p": str(p), "exponent": e} for p, e in FACTORS],
+        "factorisation": [{"p": str(p), "exponent": int(e)} for p, e in FACTORS],
         "factorisation_verified": True,
         "all_factors_proven_prime": True,
         "local_data": local_rows,
@@ -113,7 +114,7 @@ def main() -> int:
         "conductor": str(conductor),
         "finite_local_root_product": int(finite_root),
         "archimedean_root_number": -1,
-        "global_root_number": int(global_root),
+        "global_root_number": global_root,
     }
     (RESULTS / "sage_local_data_v1.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2), flush=True)
