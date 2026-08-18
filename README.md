@@ -1,90 +1,59 @@
-<h1 align="center">Hi 👋, I'm Francesco Giannicola</h1>
+<h1 align="center">Francesco Giannicola</h1>
 
 <p align="center">
-  <b>BSc student — Computer Science & Artificial Intelligence @ Università della Calabria</b>
+  <strong>Software engineer & builder working across AI systems, developer tools, native apps, compilers, and experimental products.</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/metaforismo"><img src="https://img.shields.io/github/stars/metaforismo?style=social" alt="GitHub stars"></a>
-  <img src="https://komarev.com/ghpvc/?username=metaforismo&label=Profile%20views&color=0e75b6&style=flat" alt="Profile views">
+  Computer Science & Artificial Intelligence @ Università della Calabria
+</p>
+
+<p align="center">
+  <a href="https://francescogiannicola.com">Website</a> ·
+  <a href="https://www.linkedin.com/in/francescogiannicola/">LinkedIn</a> ·
+  <a href="https://x.com/fragiannicola">X</a>
 </p>
 
 ---
 
-### 🚀 About Me
+## About
 
-Passionate self-learner with a knack for dissecting the world around me. I build projects from scratch, embrace new challenges, and love connecting ideas across disciplines.
+I like taking difficult ideas and turning them into working systems.
 
-- 🎓 Studying Computer Science & Artificial Intelligence
-- 🔭 Curious about film 🍿, space 🔭, sports ⚽ (especially football), and history 📖
-- 🤖 Always experimenting with AI, ML, and full-stack product building
-- 💬 Ask me about Python, TypeScript, Swift, AI/ML, or building things end-to-end
-- 📂 Check out my repositories → [github.com/metaforismo?tab=repositories](https://github.com/metaforismo?tab=repositories)
+My projects span **AI and agent infrastructure, developer tooling, native software, compilers and formal verification, benchmark systems, local-first products, and applied AI**. I am especially interested in problems that sit between research, engineering, and product, where the interesting part starts after the first demo works.
 
----
+I tend to learn by building: define the problem, ship an end-to-end version, test the failure modes, measure what matters, and keep iterating.
 
-### 🛠️ What I've Been Up To
+## Selected work
 
-- 👨🏻‍💻 **Hackathon Participant** — Codemotion & Poligrafico Italiano
-- 🌱 **Volunteer** — E.N.S.A. (National Environmental Protection Agency)
-- 🚓 **Volunteer** — ASS.A.P.L.I. (Italian Local Police Association)
-- ⚽ **Football Analysis Project** — data-driven match insights
-- 💻 **Contributor** — TarsGPT & DeVoSy
-- 🎙️ **Social Media Manager** — Personal Brand / Project
+| Project | What it is |
+| --- | --- |
+| **[TracePilot](https://github.com/metaforismo/tracepilot)** | Reliability studio and eval harness for computer-use agents, with step traces, replay, verification, recovery policies, safety checks, cost accounting, and provider comparisons. |
+| **[Sigil](https://github.com/metaforismo/sigil-lang)** | Experimental systems language and compiler with first-class proof obligations, SMT-LIB verification conditions, Z3 integration, memory/ownership models, and a native `libgccjit` path. |
+| **[AgentKeys](https://github.com/metaforismo/AgentKeys)** | Native iPhone control surface for coding agents, built around structured lifecycle events, capabilities, approvals, sessions, and provider-aware controls. |
+| **[Atlas Loop](https://github.com/metaforismo/atlas-loop)** | Local runtime-evidence tooling for agents operating real iOS Simulator interfaces: actions, screenshots, logs, state, network evidence, traces, and handoffs. |
+| **[Bite](https://github.com/metaforismo/Bite)** | iOS health product with HealthKit, a tool-driven AI coach, long-term memory, encrypted lab-report processing, widgets, Live Activities, and a Cloudflare backend. |
+| **[Benchforge](https://github.com/metaforismo/benchforge)** | Local-first factory for reproducible benchmark arenas with challenge CLIs, independent verification, audit artifacts, trust tiers, and hosted leaderboards. |
+| **[Ziba](https://github.com/metaforismo/Ziba)** | Local-first knowledge workspace combining durable Markdown files, typed objects, databases, backlinks, and graph navigation. |
 
----
+## What I care about
 
-### 🧰 Skills & Tools
+- Building products and infrastructure **end to end**, rather than stopping at prototypes.
+- Making AI systems **observable, testable, and useful in real workflows**.
+- Developer tools that make difficult engineering work easier to reason about.
+- Native interfaces and product details that make technically ambitious systems usable.
+- Systems, compilers, verification, performance, and other problems where correctness matters.
+- Open, inspectable software and reproducible technical evidence.
 
-<p>
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
-  <img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift">
-  <img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
-</p>
-<p>
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/SwiftUI-0052CC?style=for-the-badge&logo=swift&logoColor=white" alt="SwiftUI">
-  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
-  <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV">
-</p>
-<p>
-  <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare">
-  <img src="https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white" alt="Electron">
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-</p>
+## Tools I reach for
 
----
-
-### 🤝 Connect with Me
-
-<p>
-  <a href="https://www.linkedin.com/in/francescogiannicola1/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-  <a href="https://x.com/fragiannicola"><img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-  <a href="https://www.youtube.com/channel/UCYaWvTE2XvKI2u-9mqJysdw"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube"></a>
-</p>
-
----
-
-### 📊 My GitHub Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=metaforismo&show_icons=true&theme=tokyonight&cache_seconds=86400" alt="Francesco's GitHub Stats">
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=metaforismo&layout=compact&theme=tokyonight&cache_seconds=86400" alt="Top Languages">
-</p>
+**Languages:** TypeScript / JavaScript, Swift, Python, Rust  
+**Product & systems:** React, Node.js, SwiftUI, Cloudflare, SQLite, Docker, Git  
+**AI & evaluation:** model APIs, tool-driven agents, browser/computer use, eval harnesses, tracing, structured outputs  
+**Verification & low-level work:** Z3 / SMT, compiler frontends, native lowering, cryptographic and algorithmic experiments
 
 ---
 
 <p align="center">
-  <i>Feel free to explore my repositories and reach out if you'd like to collaborate or discuss any ideas! ✨</i>
-</p>
-
-<p align="center">
-  <a href="#hi--im-francesco-giannicola">⬆️ Back to Top</a>
+  <strong>I build a lot. The best way to understand my work is to open the repositories and run it.</strong>
 </p>
