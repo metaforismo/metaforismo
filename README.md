@@ -26,13 +26,26 @@
 
 ## About
 
-I'm a Computer Science & Artificial Intelligence student at the **Università della Calabria** and an independent software engineer / builder.
+I'm a Computer Science & Artificial Intelligence student at the **Università della Calabria**, an independent software engineer / builder, and the founder of **[Limes Labs](https://github.com/Limes-Labs)**.
 
 I like taking difficult ideas and turning them into working systems. My projects move across AI and agent infrastructure, developer tooling, native software, compilers and formal verification, benchmark systems, local-first products, and applied research.
 
 The part I enjoy most is usually what comes after the first demo: making the system observable, testing where it breaks, measuring the right things, and pushing it until the idea becomes something real.
 
 > **Default mode:** build → measure → break → improve → ship.
+
+## Open source
+
+<table>
+<tr>
+<td>
+  <strong><a href="https://github.com/openclaw/openclaw">OpenClaw</a> · upstream contributor</strong><br><br>
+  Contributions across agent runtime, Gateway reliability and performance, automation, native iOS, and messaging/provider integrations.<br><br>
+  <strong>As of Aug 2026: 23 PRs opened · 18 merged upstream.</strong><br>
+  <a href="https://github.com/openclaw/openclaw/pulls?q=is%3Apr+author%3Ametaforismo">View upstream contributions</a> · <a href="https://github.com/openclaw/openclaw/blob/main/apps/android/CHANGELOG.md">Release-note acknowledgement</a>
+</td>
+</tr>
+</table>
 
 ## Selected work
 
